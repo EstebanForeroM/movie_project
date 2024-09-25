@@ -5,15 +5,11 @@ export default function Home() {
 
   return (
     <div>
-      <div className="flex-row">
+      <div>
         <h1>
           The perfect website to see information about movies
         </h1>
-        <Image 
-          src={'https://utfs.io/f/6zXnrGgTXfUwwUSENe7pYaUzRtZOf8STnqWXbgmPickGK1yD'} alt="Home page image of the next movie comming soon"
-          width={100}
-          height={100}
-        />
+        <Image src={'https://utfs.io/f/6zXnrGgTXfUwwUSENe7pYaUzRtZOf8STnqWXbgmPickGK1yD'} alt="Home page image of the next movie comming soon"/>
       </div>
       <Link href={'/login'}>Login</Link>
     </div>
