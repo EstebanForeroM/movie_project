@@ -25,3 +25,74 @@ body {
     text-wrap: balance;
   }
 }
+
+@layer utilities {
+    .h-num {
+        @apply font-inter text-[72px] font-bold leading-[84px];
+    }
+
+    .h1 {
+        @apply text-[84px] font-black leading-[84px] tracking-[-0.03em];
+    }
+
+    .h2 {
+        @apply text-[64px] font-black leading-[64px];
+    }
+
+    .h3 {
+        @apply text-[48px] font-semibold leading-[56px] tracking-[-0.02em];
+    }
+
+    .h4 {
+        @apply text-[40px] font-semibold leading-[52px];
+    }
+
+    .h5 {
+        @apply text-[32px] font-semibold leading-[40px];
+    }
+
+    .h6 {
+        @apply text-[24px] font-medium leading-[36px];
+    }
+
+    .body-1 {
+        @apply text-[22px] leading-[36px];
+    }
+
+    .body-2 {
+        @apply text-[18px] font-semibold leading-[32px];
+    }
+
+    .body-3 {
+        @apply text-[16px] leading-[28px] tracking-[0.02em];
+    }
+
+    .base {
+        @apply text-[16px] font-medium leading-[24px] tracking-[0.03em];
+    }
+
+    .base-bold {
+        @apply text-[16px] font-bold leading-[24px];
+    }
+
+    .base-small {
+        @apply text-[14px] font-semibold leading-[18px] tracking-[0.03em];
+    }
+
+    .small-1 {
+        @apply text-[14px] font-semibold leading-[18px] tracking-[0.03em];
+    }
+
+    .small-2 {
+        @apply text-[12px] font-bold leading-[16px] tracking-[0.3em];
+    }
+
+    .small-compact {
+        @apply text-[12px] font-semibold leading-[18px] tracking-[0.03em];
+    }
+
+    .containerJ {
+        @apply flex py-28 px-10 overflow-hidden justify-center items-center flex-col;
+    }
+}
+
