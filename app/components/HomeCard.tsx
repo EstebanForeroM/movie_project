@@ -12,10 +12,15 @@ const HomeCard = (props: Props) => {
       whileHover={{ 
         scale: 1.2,
         rotateX: 20,
+        rotateY: -20,
       }}
+      drag='x'
+      dragConstraints={{ left: -10, right: 10 }}
+      dragSnapToOrigin={true}
     >
       <Image 
         src={'https://utfs.io/f/6zXnrGgTXfUwwUSENe7pYaUzRtZOf8STnqWXbgmPickGK1yD'} alt="Home page image of the next movie comming soon"
+        className='rounded-2xl pointer-events-none'
         layout="fill"
       />
     </motion.div>
