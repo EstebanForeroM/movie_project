@@ -1,11 +1,13 @@
 import Link from "next/link";
 import HomeCard from "./components/HomeCard";
 import HomeSquares from "./components/HomeSquares";
+import GridBackground from "./components/GridBackground";
 
 export default function Home() {
 
   return (
     <div>
+      <GridBackground/>
       <div className="flex flex-row h-screen flex-wrap">
         <div className="flex flex-col grow basis-0 justify-center items-center">
           <div className="p-10">
