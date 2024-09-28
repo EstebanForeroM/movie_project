@@ -1,24 +1,39 @@
 const Login = () => {
   return (
-    <div className="flex justify-center items-center h-screen w-screen">
-      <div className="flex relative my-10 w-[800px] h-96 border-2 border-pink-500
-        flex-col rounded-2xl p-5">
+    <div className="flex justify-center items-center h-screen w-screen bg-gradient-to-tl 
+      from-black from-40% to-60% to-pink-900">
 
-        <h4 className="h4 mb-5">
-          Login to ... 
-        </h4>
+      <div className="px-20 py-12 backdrop-blur-3xl rounded-2xl">
 
-        <h5 className="h5 relative">UserName</h5>
-        <input type="text" className="border border-border rounded-xl bg-gray-950 relative py-2 px-2 mt-5 mb-5 outline-none
-          text-gray-400 placeholder:text-gray-900" placeholder="put your username"/>
+        <div className="flex relative my-10 w-auto px-20 py-12 flex-col p-5 items-start
+          bg-gradient-to-tl from-pink-500 to-40% from-10% to-black rounded-2xl">
 
-        <h5 className="h5 relative">password</h5>
-        <input type="text" className="border border-border rounded-xl bg-gray-950 relative py-2 px-2 mt-5 mb-5 outline-none 
-          text-gray-400 placeholder:text-gray-900" placeholder="put your password"/>
+          <h4 className="h4 mb-5 font-extrabold">
+            Login to ... 
+          </h4>
 
-        <button className="">
-          Submit
-        </button>
+          <h6 className="h6 relative">UserName</h6>
+
+          <div className="backdrop-blur-2xl rounded-2xl bg-transparent mt-5 mb-5">
+            <input type="text" className="border-none rounded-2xl bg-transparent 
+              relative py-2 px-2 outline-none 
+              text-gray-400 placeholder:text-gray-600 w-full" placeholder="put your password"/>
+          </div>
+
+          <h6 className="h6 relative">Password</h6>
+
+          <div className="backdrop-blur-2xl rounded-2xl bg-transparent mt-5 mb-5">
+            <input type="text" className="border-none rounded-2xl bg-transparent 
+              relative py-2 px-2 outline-none 
+              text-gray-400 placeholder:text-gray-600 w-full" placeholder="put your password"/>
+          </div>
+
+          <button className="bg-gray-800 transition-all duration-500 hover:brightness-75
+            p-3 font-bold rounded">
+
+            Submit
+          </button>
+        </div>
       </div>
     </div>
   )

@@ -44,7 +44,7 @@ body {
     }
 
     .h4 {
-        @apply text-[40px] font-semibold leading-[52px];
+        @apply text-[40px] leading-[52px];
     }
 
     .h5 {
