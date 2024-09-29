@@ -5,10 +5,6 @@ import Card from "../components/Card";
 import './styles.css';
 import { useAuth } from "../hooks/useAuth";
 
-//interface Props {
-//  id: number,
-//}
-
 interface Movie {
   image_url: string,
 }
@@ -18,7 +14,6 @@ const [movies, setMovies] = useState<Movie[] | null>(null);
   const { getToken } = useAuth()
 
   console.log('this is browse')
-
   useEffect(() => {
     const get = async () => {
       console.log("use Effect executed in get function")
