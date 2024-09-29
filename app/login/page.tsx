@@ -57,7 +57,7 @@ const Login = () => {
           <h6 className="h6 relative">Password</h6>
 
           <div className="backdrop-blur-2xl rounded-2xl bg-transparent mt-5 mb-5">
-            <input type="text" className="rounded-2xl bg-transparent 
+            <input type="password" className="rounded-2xl bg-transparent 
               relative py-2 px-2 outline-none border border-gray-700
               text-gray-400 placeholder:text-gray-600 w-full" placeholder="put your password"
               onChange={(e) => setPassword(e.target.value)}/>

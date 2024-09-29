@@ -6,6 +6,7 @@ import { useAuth } from "../hooks/useAuth";
 import { getMovies, Movie } from "../lib/movie_backend";
 import { useRouter } from "next/navigation";
 import Spinner from "../components/Spinner";
+import Image from "next/image";
 
 const Page = () => {
   const router = useRouter();
@@ -38,12 +39,12 @@ const Page = () => {
 
   return (
     <>
-      <button className="w-full">
-        <Card className="rounded-2xl banner-image max-sm:object-cover"
+      <button className="w-full" onClick={() => goToDescription(movies[0].movie_id)}>
+        <Image className="rounded-2xl banner-image max-sm:object-cover"
           height={1080} width={1920} src={movies[0].image_url} alt="idk"/>
       </button>
 
-      <div className="px-10 flex flex-wrap py-8">
+      <div className="px-10 flex flex-wrap py-8 overflow-hidden">
         <div>
           <h6 className="h6 font-bold">Comming Soon</h6>
 
