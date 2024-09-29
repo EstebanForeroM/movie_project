@@ -1,13 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getMovies } from "../GlobalFunctions/crud";
 import Card from "../components/Card";
 import './styles.css';
 import { useAuth } from "../hooks/useAuth";
-
-interface Movie {
-  image_url: string,
-}
+import { getMovies, Movie } from "../lib/movie_backend";
 
 const Page = () => {
 const [movies, setMovies] = useState<Movie[] | null>(null);
@@ -37,17 +33,17 @@ const [movies, setMovies] = useState<Movie[] | null>(null);
           height={1080} width={1920} src={movies[0].image_url} alt="idk"/>
       </button>
 
-      <div className="px-10 py-8 gap-4">
+      <div className="px-10 grid grid-rows-9 py-8 gap-4">
         <div>
           <h6 className="h6 font-bold">Comming Soon</h6>
 
+            <div className="flex flex-row">
           {movies.map(movie => (
-            <div className="flex flex-row" key={movie.image_url}>
-              <button>
+              <button key={movie.movie_id}>
                 <Card src={movie.image_url} width={208} height={288} className="w-52 h-72" alt="idk"/>
               </button>
-            </div>
           ))}
+          </div>
         </div>
 
       </div>

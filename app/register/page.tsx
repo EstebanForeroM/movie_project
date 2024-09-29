@@ -7,6 +7,7 @@ import { useState } from "react";
 const RegisterReq = async (clientName: string, password: string): Promise<string> => {
   const res = await fetch("https://movierustbackend-production.up.railway.app/user/register", {
     method: 'POST',
+    cache: 'no-store',
     headers: {
       'Content-Type': 'application/json'
     },
