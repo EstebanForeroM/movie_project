@@ -46,7 +46,7 @@ const GridBackground = () => {
   const numbersColumn = Array.from({ length: gridDimensions.gridColumns });
 
   return (
-    <div className='absolute top-0 left-0 flex flex-row h-screen w-screen'>
+    <div className='absolute top-0 left-0 flex flex-row h-screen w-screen z-0'>
       {numbersRow.map((_, i) => (
         <div key={i} className='bg-transparent grow flex flex-col'>
           {numbersColumn.map((_, j) => (

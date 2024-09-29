@@ -16,7 +16,8 @@ export default function Home() {
               <span className="font-bold text-6xl text-pink-600 transition-colors duration-500 hover:text-pink-600">Movies</span>
             </h1>
             <Link href={'/login'} 
-              className="p-4 inline-block font-black text-black rounded-md bg-pink-600 hover:bg-pink-800 w-40 text-center mt-10 transition-colors duration-200">
+              className="p-4 inline-block font-black text-black rounded-md bg-pink-600 hover:bg-pink-800 w-40 text-center mt-10 transition-colors duration-200
+              relative z-10">
               Login
             </Link>
           </div>   
