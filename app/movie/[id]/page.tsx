@@ -64,6 +64,11 @@ const Page = ({ params }: {params: {id: number}}) => {
           transition-shadow duration-700 hover:shadow-lg hover:shadow-purple-600'
         >Watch it now</Link>
 
+        <Link
+          href={`/movie_edit/${params.id}`}
+          className='p-4 bg-gradient-to-r from-black to-purple-600 from-70% border border-purple-600 rounded-xl
+          transition-shadow duration-700 hover:shadow-lg hover:shadow-purple-600 ml-8'
+        >Edit movie</Link>
       </div>
     </div>
   )
