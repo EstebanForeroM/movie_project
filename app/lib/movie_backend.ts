@@ -182,3 +182,18 @@ export const createLanguage = async (token: string, languageName: string) => {
     throw new Error('Failed to create language');
   }
 };
+
+export const createMovie = async (token: string, newMovieInfo: MovieL) => {
+  console.log('The new movie info is: ', newMovieInfo);
+  const res = await fetch('https://movierustbackend-production.up.railway.app/movie/movie', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(newMovieInfo),
+  });
+  if (!res.ok) {
+    throw new Error('Failed to add movie');
+  }
+};
