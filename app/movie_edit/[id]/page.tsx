@@ -69,7 +69,8 @@ const Page = ({ params }: { params: { id: number } }) => {
       await updateMovie(token, movieInfo!);
       alert('Movie updated successfully!');
     } catch (error) {
-      alert('Failed to update movie.');
+      console.error('Error failed to update movie: ', error)
+      alert('Failed to update movie ');
     }
   };
 
