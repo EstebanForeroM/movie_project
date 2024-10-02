@@ -126,3 +126,59 @@ export const updateMovie = async (token: string, updatedMovieInfo: MovieL) => {
   }
   return res.json();
 };
+
+export const createGenre = async (token: string, genreName: string) => {
+  const res = await fetch('https://movierustbackend-production.up.railway.app/movie/genre', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ genre_name: genreName }),
+  });
+  if (!res.ok) {
+    throw new Error('Failed to create genre');
+  }
+};
+
+export const createCountry = async (token: string, countryName: string) => {
+  const res = await fetch('https://movierustbackend-production.up.railway.app/movie/country', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ country_name: countryName }),
+  });
+  if (!res.ok) {
+    throw new Error('Failed to create country');
+  }
+};
+
+export const createClassification = async (token: string, classificationName: string) => {
+  const res = await fetch('https://movierustbackend-production.up.railway.app/movie/classification', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ classification_name: classificationName }),
+  });
+  if (!res.ok) {
+    throw new Error('Failed to create classification');
+  }
+};
+
+export const createLanguage = async (token: string, languageName: string) => {
+  const res = await fetch('https://movierustbackend-production.up.railway.app/movie/language', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ language_name: languageName }),
+  });
+  if (!res.ok) {
+    throw new Error('Failed to create language');
+  }
+};

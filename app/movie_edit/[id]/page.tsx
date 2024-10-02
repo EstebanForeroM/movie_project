@@ -1,4 +1,5 @@
 'use client';
+import SelectWithAddModal from '@/app/components/SelectWithAddModal';
 import Spinner from '@/app/components/Spinner';
 import { useAuth } from '@/app/hooks/useAuth';
 import {
@@ -13,23 +14,27 @@ import {
   Country,
   Classification,
   Language,
+  createGenre,
+  createCountry,
+  createClassification,
+  createLanguage,
 } from '@/app/lib/movie_backend';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 const Page = ({ params }: { params: { id: number } }) => {
-  const [movieInfo, setMovieInfo] = useState<MovieL | null>(null);
-  const [genres, setGenres] = useState<Genre[]>([]);
-  const [countries, setCountries] = useState<Country[]>([]);
-  const [classifications, setClassifications] = useState<Classification[]>([]);
-  const [languages, setLanguages] = useState<Language[]>([]);
+    const [movieInfo, setMovieInfo] = useState<MovieL | null>(null);
+    const [genres, setGenres] = useState<{ id: number; name: string }[]>([]);
+    const [countries, setCountries] = useState<{ id: number; name: string }[]>([]);
+    const [classifications, setClassifications] = useState<{ id: number; name: string }[]>([]);
+    const [languages, setLanguages] = useState<{ id: number; name: string }[]>([]);
+
   const [loading, setLoading] = useState(true);
   const { getToken } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("Initial fetch data");
       try {
         const token = await getToken();
         const [movie, genresData, countriesData, classificationsData, languagesData] = await Promise.all([
@@ -40,10 +45,15 @@ const Page = ({ params }: { params: { id: number } }) => {
           getLanguages(token),
         ]);
         setMovieInfo(movie);
-        setGenres(genresData);
-        setCountries(countriesData);
-        setClassifications(classificationsData);
-        setLanguages(languagesData);
+        setGenres(genresData.map((genre) => ({ id: genre.id, name: genre.genre_name })));
+        setCountries(countriesData.map((country) => ({ id: country.id, name: country.country_name })));
+        setClassifications(
+          classificationsData.map((classification) => ({
+            id: classification.id,
+            name: classification.classification_name,
+          }))
+        );
+        setLanguages(languagesData.map((language) => ({ id: language.id, name: language.language_name })));
       } catch (error) {
         console.error(error);
       } finally {
@@ -109,70 +119,92 @@ const Page = ({ params }: { params: { id: number } }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5 mb-10">
-          {/* Genre Selector */}
           <label className="block">
-            <span className="text-white font-semibold">Genre:</span>
-            <select
-              name="genre"
-              value={movieInfo.genre}
-              onChange={(e) =>
-                setMovieInfo((prev) =>
-                  prev ? { ...prev, genre: e.target.value } : prev
-                )
-              }
-              className="mt-1 block w-full px-3 py-2 bg-gray-800 text-white border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
-            >
-              {genres.map((genre) => (
-                <option key={genre.id} value={genre.genre_name}>
-                  {genre.genre_name}
-                </option>
-              ))}
-            </select>
+                      <SelectWithAddModal
+                          label="Genre"
+                          items={genres}
+                          selectedValue={movieInfo.genre}
+                          onChange={(value) =>
+                              setMovieInfo((prev) =>
+                                  prev ? { ...prev, genre: value } : prev
+                              )
+                          }
+                          onAddNew={async (newItemName) => {
+                              try {
+                                  const token = await getToken();
+                                  await createGenre(token, newItemName);
+                                  const updatedGenresData = await getGenres(token);
+                                  setGenres(updatedGenresData.map((genre) => ({ id: genre.id, name: genre.genre_name })));
+                                  setMovieInfo((prev) =>
+                                      prev ? { ...prev, genre: newItemName } : prev
+                                  );
+                              } catch (error) {
+                                  console.error('Failed to add new genre', error);
+                              }
+                          }}
+                      />
+
+                  </label>
+
+          <label className="block">
+            <SelectWithAddModal
+  label="Origin Country"
+  items={countries}
+  selectedValue={movieInfo.origin_country}
+  onChange={(value) =>
+    setMovieInfo((prev) =>
+      prev ? { ...prev, origin_country: value } : prev
+    )
+  }
+  onAddNew={async (newItemName) => {
+    try {
+      const token = await getToken();
+      await createCountry(token, newItemName);
+      const updatedCountriesData = await getCountries(token);
+      setCountries(updatedCountriesData.map((country) => ({ id: country.id, name: country.country_name })));
+      setMovieInfo((prev) =>
+        prev ? { ...prev, origin_country: newItemName } : prev
+      );
+    } catch (error) {
+      console.error('Failed to add new country', error);
+    }
+  }}
+/>
+
           </label>
 
-          {/* Origin Country Selector */}
           <label className="block">
-            <span className="text-white font-semibold">Origin Country:</span>
-            <select
-              name="origin_country"
-              value={movieInfo.origin_country}
-              onChange={(e) =>
-                setMovieInfo((prev) =>
-                  prev ? { ...prev, origin_country: e.target.value } : prev
-                )
-              }
-              className="mt-1 block w-full px-3 py-2 bg-gray-800 text-white border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
-            >
-              {countries.map((country) => (
-                <option key={country.id} value={country.country_name}>
-                  {country.country_name}
-                </option>
-              ))}
-            </select>
+            <SelectWithAddModal
+  label="Classification"
+  items={classifications}
+  selectedValue={movieInfo.classification}
+  onChange={(value) =>
+    setMovieInfo((prev) =>
+      prev ? { ...prev, classification: value } : prev
+    )
+  }
+  onAddNew={async (newItemName) => {
+    try {
+      const token = await getToken();
+      await createClassification(token, newItemName);
+      const updatedClassificationsData = await getClassifications(token);
+      setClassifications(
+        updatedClassificationsData.map((classification) => ({
+          id: classification.id,
+          name: classification.classification_name,
+        }))
+      );
+      setMovieInfo((prev) =>
+        prev ? { ...prev, classification: newItemName } : prev
+      );
+    } catch (error) {
+      console.error('Failed to add new classification', error);
+    }
+  }}
+/>
+
           </label>
 
-          {/* Classification Selector */}
-          <label className="block">
-            <span className="text-white font-semibold">Classification:</span>
-            <select
-              name="classification"
-              value={movieInfo.classification}
-              onChange={(e) =>
-                setMovieInfo((prev) =>
-                  prev ? { ...prev, classification: e.target.value } : prev
-                )
-              }
-              className="mt-1 block w-full px-3 py-2 bg-gray-800 text-white border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
-            >
-              {classifications.map((classification) => (
-                <option key={classification.id} value={classification.classification_name}>
-                  {classification.classification_name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          {/* Duration */}
           <label className="block">
             <span className="text-white font-semibold">Duration (hours):</span>
             <input
@@ -188,7 +220,6 @@ const Page = ({ params }: { params: { id: number } }) => {
             />
           </label>
 
-          {/* Production Year */}
           <label className="block">
             <span className="text-white font-semibold">Production Year:</span>
             <input
@@ -204,28 +235,33 @@ const Page = ({ params }: { params: { id: number } }) => {
             />
           </label>
 
-          {/* Original Language Selector */}
           <label className="block">
-            <span className="text-white font-semibold">Original Language:</span>
-            <select
-              name="original_language"
-              value={movieInfo.original_language}
-              onChange={(e) =>
-                setMovieInfo((prev) =>
-                  prev ? { ...prev, original_language: e.target.value } : prev
-                )
-              }
-              className="mt-1 block w-full px-3 py-2 bg-gray-800 text-white border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
-            >
-              {languages.map((language) => (
-                <option key={language.id} value={language.language_name}>
-                  {language.language_name}
-                </option>
-              ))}
-            </select>
+            <SelectWithAddModal
+  label="Original Language"
+  items={languages}
+  selectedValue={movieInfo.original_language}
+  onChange={(value) =>
+    setMovieInfo((prev) =>
+      prev ? { ...prev, original_language: value } : prev
+    )
+  }
+  onAddNew={async (newItemName) => {
+    try {
+      const token = await getToken();
+      await createLanguage(token, newItemName);
+      const updatedLanguagesData = await getLanguages(token);
+      setLanguages(updatedLanguagesData.map((language) => ({ id: language.id, name: language.language_name })));
+      setMovieInfo((prev) =>
+        prev ? { ...prev, original_language: newItemName } : prev
+      );
+    } catch (error) {
+      console.error('Failed to add new language', error);
+    }
+  }}
+/>
+
           </label>
 
-          {/* Has Spanish Subtitles */}
           <label className="flex items-center mt-4">
             <input
               type="checkbox"
@@ -242,7 +278,6 @@ const Page = ({ params }: { params: { id: number } }) => {
           </label>
         </div>
 
-        {/* Summary */}
         <label className="block mb-6">
           <span className="text-white font-semibold">Summary:</span>
           <textarea
@@ -258,7 +293,6 @@ const Page = ({ params }: { params: { id: number } }) => {
           />
         </label>
 
-        {/* Website URL */}
         <label className="block mb-4">
           <span className="text-white font-semibold">Website URL:</span>
           <input
@@ -274,7 +308,6 @@ const Page = ({ params }: { params: { id: number } }) => {
           />
         </label>
 
-        {/* Image URL */}
         <label className="block mb-6">
           <span className="text-white font-semibold">Image URL:</span>
           <input
@@ -290,7 +323,6 @@ const Page = ({ params }: { params: { id: number } }) => {
           />
         </label>
 
-        {/* Buttons */}
         <div className="flex gap-4">
           <button
             onClick={handleSubmit}
@@ -305,7 +337,7 @@ const Page = ({ params }: { params: { id: number } }) => {
             className="p-4 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-semibold rounded-xl shadow-md
             transition-shadow duration-700 hover:shadow-lg hover:shadow-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
           >
-            Watch it now
+            Delete movie
           </Link>
         </div>
       </div>
