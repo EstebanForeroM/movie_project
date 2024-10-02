@@ -76,6 +76,15 @@ export interface Language {
   language_name: string;
 }
 
+export const getMovieBySearch = async (token: string, movieName: string): Promise<Movie> => {
+  const res = await fetch(`https://movierustbackend-production.up.railway.app/movie/search/${movieName}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.json();
+}
+
 export const getGenres = async (token: string): Promise<Genre[]> => {
   const res = await fetch('https://movierustbackend-production.up.railway.app/movie/genre', {
     headers: {
