@@ -127,6 +127,21 @@ export const updateMovie = async (token: string, updatedMovieInfo: MovieL) => {
   return res.json();
 };
 
+export const deleteMovie = async (token: string, updatedMovieInfo: MovieL) => {
+  const res = await fetch(`https://movierustbackend-production.up.railway.app/movie/movie`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(updatedMovieInfo),
+  });
+  if (!res.ok) {
+    throw new Error('Failed to update movie');
+  }
+  return res.json();
+};
+
 export const createGenre = async (token: string, genreName: string) => {
   const res = await fetch('https://movierustbackend-production.up.railway.app/movie/genre', {
     method: 'POST',
