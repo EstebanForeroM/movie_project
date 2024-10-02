@@ -14,17 +14,17 @@ import {
   createCountry,
   createClassification,
   createLanguage,
+  deleteMovie,
 } from '@/app/lib/movie_backend';
 import Image from 'next/image';
-import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 const Page = ({ params }: { params: { id: number } }) => {
-    const [movieInfo, setMovieInfo] = useState<MovieL | null>(null);
-    const [genres, setGenres] = useState<{ id: number; name: string }[]>([]);
-    const [countries, setCountries] = useState<{ id: number; name: string }[]>([]);
-    const [classifications, setClassifications] = useState<{ id: number; name: string }[]>([]);
-    const [languages, setLanguages] = useState<{ id: number; name: string }[]>([]);
+  const [movieInfo, setMovieInfo] = useState<MovieL | null>(null);
+  const [genres, setGenres] = useState<{ id: number; name: string }[]>([]);
+  const [countries, setCountries] = useState<{ id: number; name: string }[]>([]);
+  const [classifications, setClassifications] = useState<{ id: number; name: string }[]>([]);
+  const [languages, setLanguages] = useState<{ id: number; name: string }[]>([]);
 
   const [loading, setLoading] = useState(true);
   const { getToken } = useAuth();
@@ -74,6 +74,17 @@ const Page = ({ params }: { params: { id: number } }) => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const token = await getToken();
+      await deleteMovie(token, params.id);
+      alert('Movie deleted successfully!');
+    } catch (error) {
+      console.error('Error failed to delete movie: ', error)
+      alert('Failed to delete movie ');
+    }
+  }
+
   return (
     <div className="h-full md:h-screen grid grid-rows-2 md:grid-cols-2 bg-gray-900">
       <Image
@@ -117,88 +128,88 @@ const Page = ({ params }: { params: { id: number } }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5 mb-10">
           <label className="block">
-                      <SelectWithAddModal
-                          label="Genre"
-                          items={genres}
-                          selectedValue={movieInfo.genre}
-                          onChange={(value) =>
-                              setMovieInfo((prev) =>
-                                  prev ? { ...prev, genre: value } : prev
-                              )
-                          }
-                          onAddNew={async (newItemName) => {
-                              try {
-                                  const token = await getToken();
-                                  await createGenre(token, newItemName);
-                                  const updatedGenresData = await getGenres(token);
-                                  setGenres(updatedGenresData.map((genre) => ({ id: genre.id, name: genre.genre_name })));
-                                  setMovieInfo((prev) =>
-                                      prev ? { ...prev, genre: newItemName } : prev
-                                  );
-                              } catch (error) {
-                                  console.error('Failed to add new genre', error);
-                              }
-                          }}
-                      />
-
-                  </label>
-
-          <label className="block">
             <SelectWithAddModal
-  label="Origin Country"
-  items={countries}
-  selectedValue={movieInfo.origin_country}
-  onChange={(value) =>
-    setMovieInfo((prev) =>
-      prev ? { ...prev, origin_country: value } : prev
-    )
-  }
-  onAddNew={async (newItemName) => {
-    try {
-      const token = await getToken();
-      await createCountry(token, newItemName);
-      const updatedCountriesData = await getCountries(token);
-      setCountries(updatedCountriesData.map((country) => ({ id: country.id, name: country.country_name })));
-      setMovieInfo((prev) =>
-        prev ? { ...prev, origin_country: newItemName } : prev
-      );
-    } catch (error) {
-      console.error('Failed to add new country', error);
-    }
-  }}
-/>
+              label="Genre"
+              items={genres}
+              selectedValue={movieInfo.genre}
+              onChange={(value) =>
+                setMovieInfo((prev) =>
+                  prev ? { ...prev, genre: value } : prev
+                )
+              }
+              onAddNew={async (newItemName) => {
+                try {
+                  const token = await getToken();
+                  await createGenre(token, newItemName);
+                  const updatedGenresData = await getGenres(token);
+                  setGenres(updatedGenresData.map((genre) => ({ id: genre.id, name: genre.genre_name })));
+                  setMovieInfo((prev) =>
+                    prev ? { ...prev, genre: newItemName } : prev
+                  );
+                } catch (error) {
+                  console.error('Failed to add new genre', error);
+                }
+              }}
+            />
 
           </label>
 
           <label className="block">
             <SelectWithAddModal
-  label="Classification"
-  items={classifications}
-  selectedValue={movieInfo.classification}
-  onChange={(value) =>
-    setMovieInfo((prev) =>
-      prev ? { ...prev, classification: value } : prev
-    )
-  }
-  onAddNew={async (newItemName) => {
-    try {
-      const token = await getToken();
-      await createClassification(token, newItemName);
-      const updatedClassificationsData = await getClassifications(token);
-      setClassifications(
-        updatedClassificationsData.map((classification) => ({
-          id: classification.id,
-          name: classification.classification_name,
-        }))
-      );
-      setMovieInfo((prev) =>
-        prev ? { ...prev, classification: newItemName } : prev
-      );
-    } catch (error) {
-      console.error('Failed to add new classification', error);
-    }
-  }}
-/>
+              label="Origin Country"
+              items={countries}
+              selectedValue={movieInfo.origin_country}
+              onChange={(value) =>
+                setMovieInfo((prev) =>
+                  prev ? { ...prev, origin_country: value } : prev
+                )
+              }
+              onAddNew={async (newItemName) => {
+                try {
+                  const token = await getToken();
+                  await createCountry(token, newItemName);
+                  const updatedCountriesData = await getCountries(token);
+                  setCountries(updatedCountriesData.map((country) => ({ id: country.id, name: country.country_name })));
+                  setMovieInfo((prev) =>
+                    prev ? { ...prev, origin_country: newItemName } : prev
+                  );
+                } catch (error) {
+                  console.error('Failed to add new country', error);
+                }
+              }}
+            />
+
+          </label>
+
+          <label className="block">
+            <SelectWithAddModal
+              label="Classification"
+              items={classifications}
+              selectedValue={movieInfo.classification}
+              onChange={(value) =>
+                setMovieInfo((prev) =>
+                  prev ? { ...prev, classification: value } : prev
+                )
+              }
+              onAddNew={async (newItemName) => {
+                try {
+                  const token = await getToken();
+                  await createClassification(token, newItemName);
+                  const updatedClassificationsData = await getClassifications(token);
+                  setClassifications(
+                    updatedClassificationsData.map((classification) => ({
+                      id: classification.id,
+                      name: classification.classification_name,
+                    }))
+                  );
+                  setMovieInfo((prev) =>
+                    prev ? { ...prev, classification: newItemName } : prev
+                  );
+                } catch (error) {
+                  console.error('Failed to add new classification', error);
+                }
+              }}
+            />
 
           </label>
 
@@ -234,28 +245,28 @@ const Page = ({ params }: { params: { id: number } }) => {
 
           <label className="block">
             <SelectWithAddModal
-  label="Original Language"
-  items={languages}
-  selectedValue={movieInfo.original_language}
-  onChange={(value) =>
-    setMovieInfo((prev) =>
-      prev ? { ...prev, original_language: value } : prev
-    )
-  }
-  onAddNew={async (newItemName) => {
-    try {
-      const token = await getToken();
-      await createLanguage(token, newItemName);
-      const updatedLanguagesData = await getLanguages(token);
-      setLanguages(updatedLanguagesData.map((language) => ({ id: language.id, name: language.language_name })));
-      setMovieInfo((prev) =>
-        prev ? { ...prev, original_language: newItemName } : prev
-      );
-    } catch (error) {
-      console.error('Failed to add new language', error);
-    }
-  }}
-/>
+              label="Original Language"
+              items={languages}
+              selectedValue={movieInfo.original_language}
+              onChange={(value) =>
+                setMovieInfo((prev) =>
+                  prev ? { ...prev, original_language: value } : prev
+                )
+              }
+              onAddNew={async (newItemName) => {
+                try {
+                  const token = await getToken();
+                  await createLanguage(token, newItemName);
+                  const updatedLanguagesData = await getLanguages(token);
+                  setLanguages(updatedLanguagesData.map((language) => ({ id: language.id, name: language.language_name })));
+                  setMovieInfo((prev) =>
+                    prev ? { ...prev, original_language: newItemName } : prev
+                  );
+                } catch (error) {
+                  console.error('Failed to add new language', error);
+                }
+              }}
+            />
 
           </label>
 
@@ -329,13 +340,13 @@ const Page = ({ params }: { params: { id: number } }) => {
             Save Changes
           </button>
 
-          <Link
-            href={movieInfo.website_url}
+          <button
+            onClick={handleDelete}
             className="p-4 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-semibold rounded-xl shadow-md
             transition-shadow duration-700 hover:shadow-lg hover:shadow-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
           >
             Delete movie
-          </Link>
+          </button>
         </div>
       </div>
     </div>

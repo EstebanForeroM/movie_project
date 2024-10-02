@@ -134,7 +134,6 @@ export const updateMovie = async (token: string, updatedMovieInfo: MovieL) => {
   if (!res.ok) {
     throw new Error('Failed to update movie');
   }
-  return res.json();
 };
 
 export const deleteMovie = async (token: string, idMovie: number) => {
