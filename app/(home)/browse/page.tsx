@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import Card from "../components/Card";
+import Card from "@/app/components/Card";
 import './styles.css';
-import { useAuth } from "../hooks/useAuth";
-import { getMovies, Movie } from "../lib/movie_backend";
+import { useAuth } from "@/app/hooks/useAuth";
+import { getMovies, Movie } from "@/app/lib/movie_backend";
 import { useRouter } from "next/navigation";
-import Spinner from "../components/Spinner";
 import Image from "next/image";
+import Spinner from "@/app/components/Spinner";
 
 const Page = () => {
   const router = useRouter();
